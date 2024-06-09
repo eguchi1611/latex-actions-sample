@@ -2,22 +2,29 @@ name: Build
 
 on:
   push:
+  pull_request:
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
     steps:
       - uses: actions/checkout@v4
       - name: Compile LaTeX documents
         uses: docker://eguchi1611/texlive-sci-ja
         with:
           args: "latexmk -r .latexmkrc main.tex"
-      - uses: actions/upload-artifact@v4
-        with:
-          path: main.pdf
       - name: Deploy to Cloudflare Pages
+        id: publish
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: afdc130c46cc37864df7a03b15278775
           command: pages deploy . --project-name latex-actions-sample
+      - name: Post comment with deployment URL
+        if: github.event_name == 'pull_request'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh pr comment -b "${{steps.publish.outputs.deployment-url}}" ${{ github.event.pull_request.number }}
