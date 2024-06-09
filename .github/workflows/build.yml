@@ -15,3 +15,9 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           path: main.pdf
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: afdc130c46cc37864df7a03b15278775
+          command: pages deploy packages/frontend/out --project-name latex-actions-sample
