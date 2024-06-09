@@ -8,9 +8,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: docker://pandoc/latex:3
-        with:
-          args: "--help"
       - uses: docker://eguchi1611/texlive-sci-ja
         with:
-          args: "latexmk -r /bin/sh -c 'latexmk -r .latexmkrc main.tex; ls -la'"
+          args: "/bin/sh -c 'latexmk -r .latexmkrc main.tex; ls -la'"
