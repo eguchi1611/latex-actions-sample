@@ -10,4 +10,4 @@ jobs:
       - uses: actions/checkout@v4
       - uses: docker://eguchi1611/texlive-sci-ja
         with:
-          args: "/bin/sh -c 'latexmk -r .latexmkrc main.tex; ls -la'"
+          args: "latexmk -r .latexmkrc main.tex"
