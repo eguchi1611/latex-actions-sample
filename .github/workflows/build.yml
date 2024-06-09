@@ -13,4 +13,4 @@ jobs:
           args: "--help"
       - uses: docker://eguchi1611/texlive-sci-ja
         with:
-          args: "uplatex --version"
+          args: "latexmk -r /bin/sh -c 'latexmk -r .latexmkrc main.tex; ls -la'"
