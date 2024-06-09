@@ -20,4 +20,4 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: afdc130c46cc37864df7a03b15278775
-          command: pages deploy packages/frontend/out --project-name latex-actions-sample
+          command: pages deploy . --project-name latex-actions-sample
